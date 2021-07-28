@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "662926982491",
+    "project_id": "kenara-laundry",
+    "storage_bucket": "kenara-laundry.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:662926982491:android:a5560e142dc024f35a6e7e",
+        "android_client_info": {
+          "package_name": "com.kenaralaundry"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "662926982491-9htj775bs17ef0k4c6cm4r0l3u7818fs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCoGJw1kWSZ0qwKlEtOG2RcXaOVZaCm2EY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "662926982491-9htj775bs17ef0k4c6cm4r0l3u7818fs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
