@@ -41,7 +41,7 @@ export default function Home({navigation}) {
       // alert('email' + res.email + ' dan password ' + res.password);
 
       axios
-        .post('https://zavalabs.com/wandhaelektronik/api/point.php', {
+        .post('https://zavalabs.com/kenaralaundry/api/point.php', {
           id_member: res.id,
         })
         .then(respoint => {
@@ -50,7 +50,7 @@ export default function Home({navigation}) {
         });
 
       axios
-        .post('https://zavalabs.com/wandhaelektronik/api/get_member.php', {
+        .post('https://zavalabs.com/kenaralaundry/api/get_member.php', {
           email: res.email,
           password: res.password,
         })
@@ -67,7 +67,7 @@ export default function Home({navigation}) {
       setUser(res);
 
       axios
-        .post('https://zavalabs.com/wandhaelektronik/api/point.php', {
+        .post('https://zavalabs.com/kenaralaundry/api/point.php', {
           id_member: res.id,
         })
         .then(respoint => {
@@ -82,7 +82,7 @@ export default function Home({navigation}) {
     });
 
     axios
-      .post('https://zavalabs.com/wandhaelektronik/api/update_token.php', {
+      .post('https://zavalabs.com/kenaralaundry/api/update_token.php', {
         id_member: user.id,
         token: token,
       })
@@ -125,7 +125,7 @@ export default function Home({navigation}) {
             <Text
               style={{
                 fontSize: windowWidth / 25,
-                color: colors.white,
+                color: colors.black,
                 fontFamily: fonts.secondary[400],
               }}>
               Selamat datang,
@@ -133,7 +133,7 @@ export default function Home({navigation}) {
             <Text
               style={{
                 fontSize: windowWidth / 25,
-                color: colors.white,
+                color: colors.black,
                 fontFamily: fonts.secondary[600],
               }}>
               {user.nama_lengkap}
@@ -159,7 +159,7 @@ export default function Home({navigation}) {
               <Icon
                 type="ionicon"
                 name="logo-whatsapp"
-                color={colors.white}
+                color={colors.black}
                 size={windowWidth / 12}
               />
             </TouchableOpacity>
@@ -178,7 +178,7 @@ export default function Home({navigation}) {
               <Icon
                 type="ionicon"
                 name="logo-instagram"
-                color={colors.white}
+                color={colors.black}
                 size={windowWidth / 12}
               />
             </TouchableOpacity>
@@ -193,7 +193,7 @@ export default function Home({navigation}) {
               <Icon
                 type="ionicon"
                 name="cart-outline"
-                color={colors.white}
+                color={colors.black}
                 size={windowWidth / 12}
               />
             </TouchableOpacity>
@@ -225,14 +225,14 @@ export default function Home({navigation}) {
             <Icon
               type="ionicon"
               name="ribbon-outline"
-              color={colors.primary}
+              color={colors.black}
               size={windowWidth / 13}
             />
             <View style={{marginLeft: 5}}>
               <Text
                 style={{
                   fontSize: windowWidth / 40,
-                  color: colors.primary,
+                  color: colors.black,
                   fontFamily: fonts.secondary[400],
                 }}>
                 Point
@@ -240,7 +240,7 @@ export default function Home({navigation}) {
               <Text
                 style={{
                   fontSize: windowWidth / 35,
-                  color: colors.primary,
+                  color: colors.black,
                   fontFamily: fonts.secondary[600],
                 }}>
                 {new Intl.NumberFormat().format(point)}
@@ -257,7 +257,7 @@ export default function Home({navigation}) {
               flexDirection: 'row',
               borderWidth: 1,
               borderRadius: 10,
-              borderColor: colors.primary,
+              borderColor: colors.black,
               backgroundColor: colors.white,
               shadowColor: colors.primary,
               shadowColor: '#000',
@@ -272,14 +272,14 @@ export default function Home({navigation}) {
             <Icon
               type="ionicon"
               name="gift-outline"
-              color={colors.primary}
+              color={colors.black}
               size={windowWidth / 13}
             />
             <View style={{marginLeft: 5}}>
               <Text
                 style={{
                   fontSize: windowWidth / 40,
-                  color: colors.primary,
+                  color: colors.black,
                   fontFamily: fonts.secondary[400],
                 }}>
                 Daftar
@@ -287,7 +287,7 @@ export default function Home({navigation}) {
               <Text
                 style={{
                   fontSize: windowWidth / 35,
-                  color: colors.primary,
+                  color: colors.black,
                   fontFamily: fonts.secondary[600],
                 }}>
                 Hadiah
@@ -314,8 +314,8 @@ export default function Home({navigation}) {
                 borderWidth: 1,
                 height: 45,
                 borderRadius: 10,
-                borderColor: colors.white,
-                color: colors.white,
+                borderColor: colors.black,
+                color: colors.black,
                 flexDirection: 'row',
                 fontSize: 18,
                 justifyContent: 'center',
@@ -329,7 +329,7 @@ export default function Home({navigation}) {
                   style={{
                     fontFamily: 'Montserrat-Light',
                     fontSize: 18,
-                    color: colors.white,
+                    color: colors.black,
                   }}>
                   Cari Layanan...
                 </Text>
@@ -344,7 +344,7 @@ export default function Home({navigation}) {
                 <Icon
                   type="font-awesome"
                   name="search"
-                  color={colors.white}
+                  color={colors.black}
                   size={18}
                 />
               </View>

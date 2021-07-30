@@ -60,7 +60,7 @@ export default function Splash({navigation}) {
           // paddingBottom: windowHeight / 4,
         }}>
         <Animated.Image
-          source={require('../../assets/logo-primary.png')}
+          source={require('../../assets/logo.png')}
           style={{
             resizeMode: 'contain',
             aspectRatio: scaleLogo,
@@ -74,7 +74,7 @@ export default function Splash({navigation}) {
             style={{
               fontFamily: fonts.secondary[800],
               fontSize: windowWidth / 15,
-              color: colors.primary,
+              color: colors.black,
               textAlign: 'center',
             }}>
             KENARA LAUNDRY
@@ -87,7 +87,7 @@ export default function Splash({navigation}) {
 
 const styles = StyleSheet.create({
   page: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.primary,
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,

@@ -72,15 +72,13 @@ export default function GetStarted({navigation}) {
           marginBottom: windowHeight / 5,
           fontFamily: fonts.secondary[600],
           fontSize: windowWidth / 18,
-          color: colors.white,
+          color: colors.black,
           textAlign: 'center',
         }}>
         Yuk Cuci Sekarang dan Dapatkan Pointnya
       </Text>
 
       <MyButton
-        borderSize={1}
-        borderColor={colors.white}
         title="LOGIN"
         Icons="log-in"
         warna={colors.primary}
@@ -91,9 +89,9 @@ export default function GetStarted({navigation}) {
       <MyButton
         title="REGISTER"
         Icons="book"
-        warna={colors.white}
-        iconColor={colors.primary}
-        colorText={colors.primary}
+        warna={colors.black}
+        iconColor={colors.white}
+        colorText={colors.white}
         onPress={() => navigation.navigate('Register')}
       />
 
@@ -104,7 +102,7 @@ export default function GetStarted({navigation}) {
 
 const styles = StyleSheet.create({
   page: {
-    backgroundColor: colors.primary,
+    backgroundColor: colors.white,
     flex: 1,
     padding: 20,
   },

@@ -18,7 +18,7 @@ export default function MyInput({
   autoFocus,
   label2,
   styleLabel,
-  colorIcon = colors.primary,
+  colorIcon = colors.black,
 }) {
   return (
     <>
@@ -32,7 +32,7 @@ export default function MyInput({
         <Text
           style={{
             fontFamily: fonts.secondary[600],
-            color: colors.primary,
+            color: colors.black,
             left: 10,
             fontSize: 16,
             ...styleLabel,
@@ -44,7 +44,7 @@ export default function MyInput({
         <Text
           style={{
             fontFamily: fonts.secondary[600],
-            color: colors.primary,
+            color: colors.black,
             left: 10,
             fontSize: 14,
             marginVertical: 1,
@@ -63,7 +63,7 @@ export default function MyInput({
         onChangeText={onChangeText}
         autoCapitalize="none"
         style={{
-          borderColor: colors.primary,
+          borderColor: colors.black,
           borderRadius: 10,
           borderWidth: 1,
           paddingLeft: 10,

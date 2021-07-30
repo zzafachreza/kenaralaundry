@@ -36,6 +36,20 @@ export default function MyTerbaik() {
         onPress={() => navigation.navigate('Search2', item)}
         activeOpacity={1.0}>
         <Image style={styles.image} source={{uri: item.foto}} />
+        <View
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: colors.black,
+          }}>
+          <Text
+            style={{
+              color: colors.white,
+              fontFamily: fonts.secondary[600],
+            }}>
+            {item.nama}
+          </Text>
+        </View>
       </TouchableOpacity>
     );
   };
