@@ -34,7 +34,7 @@ export default function ListData({navigation}) {
       // console.log(res);
 
       axios
-        .post('https://zavalabs.com/wandhaelektronik/api/transaksi.php', {
+        .post('https://zavalabs.com/kenaralaundry/api/transaksi.php', {
           id_member: res.id,
         })
         .then(res => {
@@ -51,7 +51,7 @@ export default function ListData({navigation}) {
         // console.log(res);
 
         axios
-          .post('https://zavalabs.com/wandhaelektronik/api/transaksi.php', {
+          .post('https://zavalabs.com/kenaralaundry/api/transaksi.php', {
             id_member: res.id,
           })
           .then(res => {
@@ -159,7 +159,7 @@ export default function ListData({navigation}) {
                 </View>
               </TouchableOpacity>
 
-              {item.status === 'SEDANG DIPROSES' && (
+              {item.status === 'MENUNGGU KONFIRMASI' && (
                 <View style={{flexDirection: 'row'}}>
                   <Text
                     style={{
@@ -169,7 +169,7 @@ export default function ListData({navigation}) {
                       padding: 10,
                       fontFamily: fonts.secondary[600],
                     }}>
-                    SEDANG DIPROSES
+                    MENUNGGU KONFIRMASI
                   </Text>
                   <TouchableOpacity
                     onPress={() => {

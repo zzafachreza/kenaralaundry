@@ -35,7 +35,7 @@ export default function Search2({navigation, route}) {
 
   useEffect(() => {
     axios
-      .post('https://zavalabs.com/wandhaelektronik/api/barang_cari.php', {
+      .post('https://zavalabs.com/kenaralaundry/api/barang_cari.php', {
         cari: item.nama,
       })
       .then(res => {

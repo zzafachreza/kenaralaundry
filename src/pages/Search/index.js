@@ -127,7 +127,7 @@ export default function Search({navigation, route}) {
     setTimeout(() => {
       setCari(true);
       axios
-        .post('https://zavalabs.com/wandhaelektronik/api/barang_cari_key.php', {
+        .post('https://zavalabs.com/kenaralaundry/api/barang_cari_key.php', {
           cari: key,
         })
         .then(res => {
