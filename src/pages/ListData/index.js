@@ -175,7 +175,7 @@ export default function ListData({navigation}) {
                     onPress={() => {
                       axios
                         .post(
-                          'https://zavalabs.com/wandhaelektronik/api/transaksi_hapus.php',
+                          'https://zavalabs.com/kenaralaundry/api/transaksi_hapus.php',
                           {
                             id_member: item.id_member,
                             kode: item.kode,
@@ -184,7 +184,7 @@ export default function ListData({navigation}) {
                         .then(res => {
                           axios
                             .post(
-                              'https://zavalabs.com/wandhaelektronik/api/transaksi.php',
+                              'https://zavalabs.com/kenaralaundry/api/transaksi.php',
                               {
                                 id_member: item.id_member,
                               },
@@ -210,18 +210,145 @@ export default function ListData({navigation}) {
                 </View>
               )}
 
+              {item.status === 'CUCIAN SUDAH WANGI' && (
+                <View style={{flexDirection: 'row'}}>
+                  <Text
+                    style={{
+                      flex: 1,
+                      backgroundColor: '#DEDEDE',
+                      color: colors.black,
+                      padding: 10,
+                      fontFamily: fonts.secondary[600],
+                    }}>
+                    CUCIAN SUDAH WANGI
+                  </Text>
+                  <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate('Jadwal', item);
+                    }}
+                    style={{
+                      padding: 10,
+                      backgroundColor: colors.success,
+                    }}>
+                    <Text
+                      style={{
+                        fontFamily: fonts.secondary[600],
+                        color: colors.white,
+                      }}>
+                      Atur Jadwal Pengantaran
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              )}
+
               {item.status === 'SELESAI' && (
                 <View style={{flexDirection: 'row'}}>
                   <Text
                     style={{
                       flex: 1,
-                      backgroundColor: colors.primary,
+                      backgroundColor: colors.success,
                       color: colors.white,
                       padding: 10,
                       fontFamily: fonts.secondary[600],
                       textAlign: 'center',
                     }}>
                     SELESAI
+                  </Text>
+                </View>
+              )}
+
+              {item.status === 'SIAP DI ANTAR' && (
+                <View style={{flexDirection: 'row'}}>
+                  <Text
+                    style={{
+                      flex: 1,
+                      backgroundColor: colors.warning,
+                      color: colors.white,
+                      padding: 10,
+                      fontFamily: fonts.secondary[600],
+                      textAlign: 'center',
+                    }}>
+                    CUCIAN SIAP DI ANTAR
+                  </Text>
+                </View>
+              )}
+
+              {item.status === 'KURIR AMBIL CUCIAN' && (
+                <View style={{flexDirection: 'row'}}>
+                  <Text
+                    style={{
+                      flex: 1,
+                      backgroundColor: colors.warning,
+                      color: colors.white,
+                      padding: 10,
+                      fontFamily: fonts.secondary[600],
+                      textAlign: 'center',
+                    }}>
+                    KURIR SEDANG MENUJU KE RUMAH ANDA
+                  </Text>
+                </View>
+              )}
+
+              {item.status === 'CUCIAN SAMPAI DI TOKO' && (
+                <View style={{flexDirection: 'row'}}>
+                  <Text
+                    style={{
+                      flex: 1,
+                      backgroundColor: colors.warning,
+                      color: colors.white,
+                      padding: 10,
+                      fontFamily: fonts.secondary[600],
+                      textAlign: 'center',
+                    }}>
+                    CUCIAN ANDA SUDAH SAMPAI DI TOKO
+                  </Text>
+                </View>
+              )}
+
+              {item.status === 'CUCIAN SEDANG DI CUCI' && (
+                <View style={{flexDirection: 'row'}}>
+                  <Text
+                    style={{
+                      flex: 1,
+                      backgroundColor: colors.warning,
+                      color: colors.white,
+                      padding: 10,
+                      fontFamily: fonts.secondary[600],
+                      textAlign: 'center',
+                    }}>
+                    CUCIAN SEDANG DI CUCI
+                  </Text>
+                </View>
+              )}
+
+              {item.status === 'CUCIAN SEDANG DI SETRIKA' && (
+                <View style={{flexDirection: 'row'}}>
+                  <Text
+                    style={{
+                      flex: 1,
+                      backgroundColor: colors.warning,
+                      color: colors.white,
+                      padding: 10,
+                      fontFamily: fonts.secondary[600],
+                      textAlign: 'center',
+                    }}>
+                    CUCIAN SEDANG DI SETRIKA
+                  </Text>
+                </View>
+              )}
+
+              {item.status === 'CUCIAN SEDANG DI LABELING' && (
+                <View style={{flexDirection: 'row'}}>
+                  <Text
+                    style={{
+                      flex: 1,
+                      backgroundColor: colors.warning,
+                      color: colors.white,
+                      padding: 10,
+                      fontFamily: fonts.secondary[600],
+                      textAlign: 'center',
+                    }}>
+                    CUCIAN SEDANG DI LABELING
                   </Text>
                 </View>
               )}

@@ -26,11 +26,12 @@ import Laporan from './Laporan';
 import Hadiah from './Hadiah';
 import Redeem from './Redeem';
 import ListRedeem from './ListRedeem';
-
+import Jadwal from './Jadwal';
 export {
   Splash,
   GetStarted,
   Register,
+  Jadwal,
   Login,
   Home,
   Account,

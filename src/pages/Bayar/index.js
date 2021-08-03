@@ -32,7 +32,7 @@ export default function Bayar({navigation, route}) {
   const [loading, setLoading] = useState(false);
   console.log('pembayaran', data);
   const [foto1, setfoto1] = useState(
-    'https://ayokulakan.com/img/no-images.png',
+    'https://www.tomonet.co.id/asset/images/noimage-large.jpg',
   );
 
   const options = {
@@ -137,7 +137,8 @@ export default function Bayar({navigation, route}) {
             <MyButton
               onPress={onPress2}
               title="GALLERY"
-              warna={colors.secondary}
+              colorText={colors.black}
+              warna={colors.primary}
             />
           </View>
         </View>
@@ -156,9 +157,7 @@ export default function Bayar({navigation, route}) {
           setLoading(false);
         });
 
-      navigation.replace('MainApp');
-      showMessage({
-        type: 'success',
+      navigation.navigate('Success2', {
         message: 'Transaksi Berhasil, Terima kasih',
       });
     }, 1200);
@@ -240,7 +239,7 @@ export default function Bayar({navigation, route}) {
                 fontFamily: fonts.secondary[600],
                 padding: 10,
               }}>
-              wandhaelektronik
+              Kenara Laundry
             </Text>
           </View>
           <View
@@ -261,7 +260,7 @@ export default function Bayar({navigation, route}) {
             </Text>
             <Text
               style={{
-                color: colors.primary,
+                color: colors.warning,
                 fontSize: 20,
                 fontFamily: fonts.secondary[600],
                 padding: 10,
@@ -282,7 +281,7 @@ export default function Bayar({navigation, route}) {
           <MyButton
             onPress={simpan}
             title="KONFIRMASI PEMBAYARAN"
-            warna={colors.primary}
+            warna={colors.warning}
             style={{
               justifyContent: 'flex-end',
             }}

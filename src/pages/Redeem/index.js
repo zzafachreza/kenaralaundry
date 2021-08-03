@@ -51,7 +51,7 @@ export default function Redeem({navigation, route}) {
     };
     console.log('kirim tok server', kirim);
     axios
-      .post('https://zavalabs.com/wandhaelektronik/api/redeem_add.php', kirim)
+      .post('https://zavalabs.com/kenaralaundry/api/redeem_add.php', kirim)
       .then(res => {
         console.log(res);
         setTimeout(() => {
@@ -86,7 +86,7 @@ export default function Redeem({navigation, route}) {
             style={{
               fontFamily: fonts.secondary[600],
               fontSize: windowWidth / 22,
-              backgroundColor: colors.primary,
+              backgroundColor: colors.success,
               color: colors.white,
               padding: 5,
             }}>
@@ -125,7 +125,7 @@ export default function Redeem({navigation, route}) {
                 marginVertical: 5,
                 fontFamily: fonts.secondary[600],
                 fontSize: windowWidth / 20,
-                color: colors.primary,
+                color: colors.success,
               }}>
               {new Intl.NumberFormat().format(point)} Point
             </Text>
@@ -194,7 +194,7 @@ export default function Redeem({navigation, route}) {
                 </View>
                 <TouchableOpacity
                   onPress={() => {
-                    if (point > user.point) {
+                    if (point >= user.point) {
                       showMessage({
                         type: 'danger',
                         message: 'Point Anda Tidak Mencukupi !',

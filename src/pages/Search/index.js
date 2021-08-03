@@ -72,50 +72,13 @@ export default function Search({navigation, route}) {
               Rp. {new Intl.NumberFormat().format(item.harga)}
             </Text>
 
-            {item.diskon > 0 ? (
-              <>
-                <View style={{flexDirection: 'row'}}>
-                  <Text
-                    style={{
-                      fontFamily: fonts.secondary[600],
-                      fontSize: windowWidth / 30,
-                      color: colors.border,
-                      left: 5,
-                      textDecorationLine: 'line-through',
-                      textDecorationStyle: 'solid',
-                      textDecorationColor: colors.black,
-                    }}>
-                    {' '}
-                    Rp. {new Intl.NumberFormat().format(item.harga_awal)}
-                  </Text>
-                  <Text
-                    style={{
-                      left: 10,
-                      backgroundColor: colors.warning,
-                      borderRadius: 5,
-                      color: colors.white,
-                      paddingHorizontal: 5,
-                    }}>
-                    {Math.round(100 - (item.harga / item.harga_awal) * 100)}%
-                  </Text>
-                </View>
-                <View
-                  style={{
-                    flex: 1,
-                    padding: 10,
-                  }}>
-                  <Text style={styles.subTitle}>{item.keterangan}</Text>
-                </View>
-              </>
-            ) : (
-              <View
-                style={{
-                  flex: 1,
-                  padding: 10,
-                }}>
-                <Text style={styles.subTitle}>{item.keterangan}</Text>
-              </View>
-            )}
+            <View
+              style={{
+                flex: 1,
+                padding: 10,
+              }}>
+              <Text style={styles.subTitle}>{item.tipe}</Text>
+            </View>
           </View>
         </View>
       </TouchableOpacity>
@@ -166,7 +129,12 @@ export default function Search({navigation, route}) {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
-              <Icon type="ionicon" name="arrow-back" color="#FFF" size={25} />
+              <Icon
+                type="ionicon"
+                name="arrow-back"
+                color={colors.black}
+                size={25}
+              />
             </TouchableOpacity>
             <View
               style={{
@@ -176,7 +144,7 @@ export default function Search({navigation, route}) {
                 value={key}
                 onSubmitEditing={pencarian}
                 onChangeText={value => setKey(value)}
-                selectionColor={'#FFF'}
+                selectionColor={colors.black}
                 autoCapitalize="none"
                 autoFocus
                 style={{
@@ -184,8 +152,8 @@ export default function Search({navigation, route}) {
                   borderWidth: 1,
                   height: 45,
                   borderRadius: 10,
-                  borderColor: '#FFF',
-                  color: '#FFF',
+                  borderColor: colors.black,
+                  color: colors.black,
                   flexDirection: 'row',
                   fontSize: 18,
                   justifyContent: 'center',
@@ -211,13 +179,13 @@ export default function Search({navigation, route}) {
               <Icon
                 type="ionicon"
                 name="search"
-                color={colors.primary}
+                color={colors.warning}
                 size={16}
               />
               <Text
                 style={{
                   fontFamily: 'Montserrat-SemiBold',
-                  color: colors.primary,
+                  color: colors.warning,
                   left: 10,
                   fontSize: 16,
                 }}>
@@ -289,10 +257,12 @@ const styles = StyleSheet.create({
   },
   subTitle: {
     // flex: 1,
-    // backgroundColor: 'red',
+    backgroundColor: colors.primary,
     fontFamily: fonts.secondary[400],
     fontSize: 14,
-    color: '#000',
-    marginBottom: 5,
+    color: colors.black,
+    padding: 5,
+    textAlign: 'center',
+    borderRadius: 10,
   },
 });

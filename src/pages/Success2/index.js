@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -27,7 +27,10 @@ export default function Success2({navigation, route}) {
     navigation.replace('MainApp');
   }, 1300);
 
-  const messege = route.params.messege;
+  useEffect(() => {
+    const messege = route.params.messege;
+    console.log('isi', route.params.message);
+  }, []);
   return (
     <SafeAreaView
       style={{
@@ -52,7 +55,7 @@ export default function Success2({navigation, route}) {
             color: 'black',
             bottom: txt,
           }}>
-          Redeem Point Berhasil
+          {route.params.message}
         </Animated.Text>
       </View>
     </SafeAreaView>

@@ -15,7 +15,7 @@ import {colors} from '../../utils/colors';
 import {fonts, windowHeight, windowWidth} from '../../utils/fonts';
 import 'intl';
 import 'intl/locale-data/jsonp/en';
-import {color} from 'react-native-elements/dist/helpers';
+// import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 
 export default function MyTerbaik() {
   useEffect(() => {
@@ -35,16 +35,26 @@ export default function MyTerbaik() {
         style={styles.card}
         onPress={() => navigation.navigate('Search2', item)}
         activeOpacity={1.0}>
-        <Image style={styles.image} source={{uri: item.foto}} />
+        <Image
+          style={{
+            width: 100,
+            height: 100,
+          }}
+          source={{uri: item.foto}}
+        />
         <View
           style={{
             justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: colors.black,
+            // alignItems: 'center',
+
+            flex: 1,
           }}>
           <Text
             style={{
-              color: colors.white,
+              color: colors.black,
+              left: '5%',
+              fontSize: windowWidth / 22,
+
               fontFamily: fonts.secondary[600],
             }}>
             {item.nama}
@@ -64,7 +74,6 @@ export default function MyTerbaik() {
         }}>
         <View style={{padding: 10}}>
           <FlatList
-            numColumns={2}
             data={data}
             renderItem={renderItem}
             keyExtractor={item => item.id}
@@ -80,8 +89,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   card: {
-    height: 120,
-    width: '50%',
+    width: '100%',
+    padding: 10,
     margin: '1%',
     shadowColor: colors.primary,
     shadowColor: '#000',
@@ -89,6 +98,7 @@ const styles = StyleSheet.create({
       width: -10,
       height: 2,
     },
+    flexDirection: 'row',
     shadowOpacity: 0.44,
     shadowRadius: 5.32,
     elevation: 5,
@@ -96,7 +106,6 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     backgroundColor: colors.primary,
     marginBottom: 10,
-    justifyContent: 'center',
     flex: 1,
     marginHorizontal: 5,
   },

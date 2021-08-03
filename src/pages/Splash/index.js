@@ -57,13 +57,14 @@ export default function Splash({navigation}) {
           flex: 1,
           justifyContent: 'center',
           alignItems: 'center',
-          // paddingBottom: windowHeight / 4,
+          paddingBottom: windowHeight / 5,
         }}>
         <Animated.Image
           source={require('../../assets/logo.png')}
           style={{
             resizeMode: 'contain',
             aspectRatio: scaleLogo,
+            marginRight: 25,
           }}
         />
         <Animated.View
@@ -75,7 +76,7 @@ export default function Splash({navigation}) {
               fontFamily: fonts.secondary[800],
               fontSize: windowWidth / 15,
               color: colors.black,
-              textAlign: 'center',
+              // textAlign: 'center',
             }}>
             KENARA LAUNDRY
           </Text>

@@ -15,7 +15,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {MyButton, MyInput, MyGap, MyPicker} from '../../components';
 import {colors} from '../../utils/colors';
 import {TouchableOpacity, Swipeable} from 'react-native-gesture-handler';
-import {fonts} from '../../utils/fonts';
+import {fonts, windowWidth} from '../../utils/fonts';
 import {useIsFocused} from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
 import {Icon} from 'react-native-elements';
@@ -157,9 +157,7 @@ export default function Bayar({navigation, route}) {
           setLoading(false);
         });
 
-      navigation.replace('MainApp');
-      showMessage({
-        type: 'success',
+      navigation.navigate('Success2', {
         message: 'Transaksi Berhasil, Terima kasih',
       });
     }, 1200);
@@ -181,8 +179,8 @@ export default function Bayar({navigation, route}) {
             }}>
             <Text
               style={{
-                color: colors.secondary,
-                fontSize: 25,
+                color: colors.black,
+                fontSize: windowWidth / 20,
                 fontFamily: fonts.secondary[600],
                 padding: 10,
               }}>
@@ -198,8 +196,8 @@ export default function Bayar({navigation, route}) {
             }}>
             <Text
               style={{
-                color: colors.primary,
-                fontSize: 25,
+                color: colors.success,
+                fontSize: windowWidth / 10,
                 fontFamily: fonts.secondary[600],
                 padding: 10,
               }}>
@@ -212,7 +210,7 @@ export default function Bayar({navigation, route}) {
           <MyButton
             onPress={simpan}
             title="SELESAIKAN TRANSAKSI"
-            warna={colors.primary}
+            warna={colors.warning}
             style={{
               justifyContent: 'flex-end',
             }}

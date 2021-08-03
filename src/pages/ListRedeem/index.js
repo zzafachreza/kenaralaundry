@@ -34,7 +34,7 @@ export default function ListRedeem({navigation}) {
       // console.log(res);
 
       axios
-        .post('https://zavalabs.com/wandhaelektronik/api/redeem.php', {
+        .post('https://zavalabs.com/kenaralaundry/api/redeem.php', {
           id_member: res.id,
         })
         .then(res => {
@@ -51,7 +51,7 @@ export default function ListRedeem({navigation}) {
         // console.log(res);
 
         axios
-          .post('https://zavalabs.com/wandhaelektronik/api/redeem.php', {
+          .post('https://zavalabs.com/kenaralaundry/api/redeem.php', {
             id_member: res.id,
           })
           .then(res => {

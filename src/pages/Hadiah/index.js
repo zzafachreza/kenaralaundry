@@ -18,13 +18,11 @@ import 'intl/locale-data/jsonp/en';
 
 export default function Hadiah() {
   useEffect(() => {
-    axios
-      .get('https://zavalabs.com/wandhaelektronik/api/hadiah.php')
-      .then(res => {
-        console.log(res.data);
-        setData(res.data);
-        // setData(res.data.data);
-      });
+    axios.get('https://zavalabs.com/kenaralaundry/api/hadiah.php').then(res => {
+      console.log(res.data);
+      setData(res.data);
+      // setData(res.data.data);
+    });
   }, []);
 
   const navigation = useNavigation();

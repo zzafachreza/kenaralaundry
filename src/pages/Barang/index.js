@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {colors} from '../../utils/colors';
 import {fonts, windowWidth} from '../../utils/fonts';
-import {MyButton, MyGap} from '../../components';
+import {MyButton, MyGap, MyInput} from '../../components';
 import 'intl';
 import 'intl/locale-data/jsonp/en';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
@@ -21,6 +21,14 @@ import axios from 'axios';
 
 export default function Barang({navigation, route}) {
   const item = route.params;
+  navigation.setOptions({
+    headerShown: false,
+  });
+
+  const [keyboardStatus, setKeyboardStatus] = useState(false);
+  const _keyboardDidShow = () => setKeyboardStatus(true);
+  const _keyboardDidHide = () => setKeyboardStatus(false);
+  const [cart, setCart] = useState(false);
 
   const [jumlah, setJumlah] = useState(1);
   const [user, setUser] = useState({});
@@ -32,26 +40,20 @@ export default function Barang({navigation, route}) {
     });
   }, []);
 
-  const modalizeRef = useRef();
-
-  const onOpen = () => {
-    modalizeRef.current?.open();
-  };
-
   const addToCart = () => {
     const kirim = {
       id_member: user.id,
       id_barang: item.id,
       nama_barang: item.nama_barang,
-      qty: jumlah,
       uom: item.uom,
+      qty: jumlah,
       harga: item.harga,
       total: jumlah * item.harga,
       foto: item.foto,
     };
     console.log('kirim tok server', kirim);
     axios
-      .post('https://zavalabs.com/wandhaelektronik/api/barang_add.php', kirim)
+      .post('https://zavalabs.com/kenaralaundry/api/barang_add.php', kirim)
       .then(res => {
         console.log(res);
         // navigation.navigate('Success2', {
@@ -61,7 +63,7 @@ export default function Barang({navigation, route}) {
           type: 'success',
           message: 'Berhasil Masuk Keranjang',
         });
-        modalizeRef.current.close();
+        setCart(true);
       });
   };
 
@@ -69,238 +71,199 @@ export default function Barang({navigation, route}) {
     <SafeAreaView
       style={{
         flex: 1,
-        backgroundColor: colors.white,
+        backgroundColor: colors.primary,
       }}>
       <View
         style={{
-          flex: 1,
+          height: 50,
+          // padding: 10,
+          paddingRight: 10,
+          backgroundColor: colors.primary,
+
+          flexDirection: 'row',
         }}>
+        <View style={{justifyContent: 'center'}}>
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            style={{
+              padding: 10,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Icon type="ionicon" name="arrow-back" color={colors.white} />
+          </TouchableOpacity>
+        </View>
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <Text
+            style={{
+              fontFamily: fonts.secondary[600],
+              fontSize: windowWidth / 20,
+              color: colors.white,
+            }}>
+            {item.nama_barang}
+          </Text>
+        </View>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Cart')}
+          style={{
+            padding: 10,
+            position: 'relative',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Icon type="ionicon" name="cart-outline" color={colors.white} />
+          {cart && (
+            <View
+              style={{
+                width: 10,
+                height: 10,
+                borderRadius: 5,
+                backgroundColor: colors.danger,
+                position: 'absolute',
+                right: 10,
+                top: 15,
+              }}
+            />
+          )}
+        </TouchableOpacity>
+      </View>
+      <View style={{justifyContent: 'center', alignItems: 'center'}}>
         <Image
           resizeMode="contain"
           style={{
+            // marginTop: (windowWidth / 5) * -1,
             width: '100%',
-            aspectRatio: 1.5,
+            aspectRatio: 1.2,
+            // margin: 5,
           }}
           source={{
             uri: item.foto,
           }}
         />
+      </View>
+      <View style={{flex: 1}}>
         <View
           style={{
+            marginTop: (windowWidth / 15) * -1,
             backgroundColor: colors.white,
             flex: 1,
+            padding: 10,
+            borderTopLeftRadius: 20,
+            borderTopRightRadius: 20,
           }}>
-          <View
+          <Text
             style={{
-              padding: 10,
+              fontFamily: fonts.secondary[600],
+              fontSize: windowWidth / 22,
+              textAlign: 'center',
+              marginBottom: 10,
             }}>
-            <Text
-              style={{
-                fontFamily: fonts.secondary[600],
-                fontSize: windowWidth / 25,
-                color: colors.black,
-              }}>
-              {item.nama_barang}
-            </Text>
-            <Text
-              style={{
-                marginVertical: 5,
-                fontFamily: fonts.secondary[600],
-                fontSize: windowWidth / 20,
-                color: colors.warning,
-              }}>
-              Rp. {new Intl.NumberFormat().format(item.harga)}
-            </Text>
-            {item.diskon > 0 ? (
-              <View style={{flexDirection: 'row'}}>
-                <Text
-                  style={{
-                    fontFamily: fonts.secondary[600],
-                    fontSize: windowWidth / 25,
-                    color: colors.border,
-
-                    textDecorationLine: 'line-through',
-                    textDecorationStyle: 'solid',
-                    textDecorationColor: colors.black,
-                  }}>
-                  {' '}
-                  Rp. {new Intl.NumberFormat().format(item.harga_awal)}
-                </Text>
-                <Text
-                  style={{
-                    left: 10,
-                    backgroundColor: colors.primary,
-                    borderRadius: 5,
-                    color: colors.white,
-                    paddingHorizontal: 5,
-                  }}>
-                  {Math.round(100 - (item.harga / item.harga_awal) * 100)}%
-                </Text>
-              </View>
-            ) : (
-              <View></View>
-            )}
-          </View>
-          <View style={{padding: 10}}>
-            <Text
-              style={{
-                fontFamily: fonts.secondary[400],
-                fontSize: windowWidth / 30,
-                color: colors.black,
-              }}>
-              {item.keterangan} ini adalah deskripsi dari produk
-            </Text>
-          </View>
+            {item.tipe}
+          </Text>
+          <Text
+            style={{
+              fontFamily: fonts.secondary[600],
+              fontSize: windowWidth / 15,
+              color: colors.black,
+            }}>
+            {item.nama_barang}
+          </Text>
+          {/* <Text
+            style={{
+              fontFamily: fonts.secondary[600],
+              fontSize: windowWidth / 20,
+              color: colors.primary,
+            }}>
+            Rp. {new Intl.NumberFormat().format(item.harga * jumlah)} / Liter
+          </Text> */}
         </View>
       </View>
+      <View
+        style={{
+          backgroundColor: colors.white,
+          paddingHorizontal: 10,
+        }}>
+        <View
+          style={{
+            flexDirection: 'row',
 
-      <MyButton
-        fontWeight="bold"
-        radius={0}
-        title="TAMBAH KERANJANG"
-        warna={colors.warning}
-        onPress={onOpen}
-      />
-
-      <Modalize
-        withHandle={false}
-        scrollViewProps={{showsVerticalScrollIndicator: false}}
-        snapPoint={275}
-        HeaderComponent={
-          <View style={{padding: 10}}>
-            <View style={{flexDirection: 'row'}}>
-              <View>
-                <Image
-                  resizeMode="contain"
-                  style={{
-                    width: 100,
-                    borderRadius: 20,
-                    aspectRatio: 1,
-                  }}
-                  source={{uri: item.foto}}
-                />
-              </View>
-              <View style={{flex: 1, padding: 10, justifyContent: 'center'}}>
-                <Text
-                  style={{
-                    fontFamily: fonts.secondary[600],
-                    fontSize: 20,
-                    color: colors.warning,
-                  }}>
-                  Rp. {new Intl.NumberFormat().format(item.harga * jumlah)}
-                </Text>
-              </View>
-              <TouchableOpacity onPress={() => modalizeRef.current.close()}>
-                <Icon type="ionicon" name="close-outline" size={35} />
-              </TouchableOpacity>
-            </View>
+            justifyContent: 'space-around',
+          }}>
+          <TouchableOpacity
+            onPress={() => {
+              jumlah == 1
+                ? showMessage({
+                    type: 'danger',
+                    message: 'Minimal pembelian 1 Pcs',
+                  })
+                : setJumlah(jumlah - 1);
+            }}
+            style={{
+              backgroundColor: colors.warning,
+              width: '30%',
+              borderRadius: 10,
+              height: 40,
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginRight: 10,
+            }}>
+            <Icon type="ionicon" name="remove" color={colors.white} />
+          </TouchableOpacity>
+          <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Text style={{fontSize: 16, fontFamily: fonts.secondary[600]}}>
+              {jumlah}
+            </Text>
           </View>
-        }
-        withHandle={false}
-        ref={modalizeRef}>
-        <View style={{flex: 1, height: 230}}>
-          <View style={{padding: 10, flex: 1}}>
-            <View style={{flexDirection: 'row', marginTop: 20}}>
-              <View style={{flex: 1}}>
-                <Text
-                  style={{
-                    fontFamily: fonts.secondary[600],
-                    color: colors.primary,
-                  }}>
-                  Jumlah
-                </Text>
-              </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-
-                  justifyContent: 'space-around',
-                }}>
-                <TouchableOpacity
-                  onPress={() => {
-                    jumlah == 1
-                      ? showMessage({
-                          type: 'danger',
-                          message: 'Minimal pembelian 1 Pcs',
-                        })
-                      : setJumlah(jumlah - 1);
-                  }}
-                  style={{
-                    backgroundColor: colors.secondary,
-                    width: '30%',
-                    borderRadius: 10,
-                    height: 40,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    marginRight: 10,
-                  }}>
-                  <Icon type="ionicon" name="remove" color={colors.white} />
-                </TouchableOpacity>
-                <View
-                  style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
-                  <Text
-                    style={{fontSize: 16, fontFamily: fonts.secondary[600]}}>
-                    {jumlah}
-                  </Text>
-                </View>
-                <TouchableOpacity
-                  onPress={() => {
-                    jumlah >= item.stok
-                      ? showMessage({
-                          type: 'danger',
-                          message: 'Pembelian melebihi batas !',
-                        })
-                      : setJumlah(jumlah + 1);
-                  }}
-                  style={{
-                    backgroundColor: colors.secondary,
-                    width: '30%',
-                    borderRadius: 10,
-                    marginLeft: 10,
-                    height: 40,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
-                  <Icon type="ionicon" name="add" color={colors.white} />
-                </TouchableOpacity>
-              </View>
-            </View>
-
-            {/* <MyButton
-              radius={20}
-              fontWeight="bold"
-              radius={0}
-              title="TAMBAH KERANJANG"
-              warna={colors.primary}
-              onPress={addToCart}
-            /> */}
-
-            <View style={{marginTop: 15}}>
-              <TouchableOpacity
-                onPress={addToCart}
-                style={{
-                  backgroundColor: colors.primary,
-                  borderRadius: 10,
-                  padding: 15,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Text
-                  style={{
-                    fontFamily: fonts.secondary[600],
-                    fontSize: windowWidth / 22,
-                    color: colors.white,
-                  }}>
-                  TAMBAH KERANJANG
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
+          <TouchableOpacity
+            onPress={() => {
+              jumlah >= item.stok
+                ? showMessage({
+                    type: 'danger',
+                    message: 'Pembelian melebihi batas !',
+                  })
+                : setJumlah(jumlah + 1);
+            }}
+            style={{
+              backgroundColor: colors.warning,
+              width: '30%',
+              borderRadius: 10,
+              marginLeft: 10,
+              height: 40,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Icon type="ionicon" name="add" color={colors.white} />
+          </TouchableOpacity>
         </View>
-      </Modalize>
+      </View>
+      <View
+        style={{
+          backgroundColor: colors.white,
+          padding: 20,
+        }}>
+        <Text
+          style={{
+            fontFamily: fonts.secondary[600],
+            fontSize: windowWidth / 12,
+            color: colors.black,
+            textAlign: 'center',
+          }}>
+          Rp. {new Intl.NumberFormat().format(item.harga * jumlah)}
+        </Text>
+      </View>
+      <View>
+        <MyButton
+          fontWeight="bold"
+          radius={0}
+          title="PROSES PESANAN"
+          warna={colors.success}
+          onPress={addToCart}
+        />
+      </View>
     </SafeAreaView>
   );
 }

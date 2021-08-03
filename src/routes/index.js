@@ -37,6 +37,7 @@ import {
   Hadiah,
   Redeem,
   ListRedeem,
+  Jadwal,
 } from '../pages';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {BottomNavigator} from '../components';
@@ -272,6 +273,33 @@ export default function Router() {
         component={Kategori}
         options={({route, navigation}) => ({
           title: 'Detail Pembantu',
+          headerTintColor: 'white',
+          headerStyle: {
+            backgroundColor: colors.primary,
+            elevation: 0, // remove shadow on Android
+          },
+          cardStyleInterpolator: ({current, layouts}) => {
+            return {
+              cardStyle: {
+                transform: [
+                  {
+                    translateX: current.progress.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [layouts.screen.width, 0],
+                    }),
+                  },
+                ],
+              },
+            };
+          },
+        })}
+      />
+
+      <Stack.Screen
+        name="Jadwal"
+        component={Jadwal}
+        options={({route, navigation}) => ({
+          title: 'JADWAL PENGANTARAN',
           headerTintColor: 'white',
           headerStyle: {
             backgroundColor: colors.primary,
