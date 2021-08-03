@@ -56,7 +56,7 @@ export default function Redeem({navigation, route}) {
         console.log(res);
         setTimeout(() => {
           navigation.replace('Success2', {
-            message: 'Berhasil Tambah Keranjang',
+            message: 'Berhasil Redeem Hadiah',
           });
           setLoading(false);
         }, 1000);
