@@ -17,16 +17,20 @@ import 'intl';
 import 'intl/locale-data/jsonp/en';
 
 export default function Hadiah() {
-  useEffect(() => {
+  const navigation = useNavigation();
+  const [data, setData] = useState([]);
+
+  const getDataHadiah = () => {
     axios.get('https://zavalabs.com/kenaralaundry/api/hadiah.php').then(res => {
-      console.log(res.data);
+      console.log('data haduah', res.data);
       setData(res.data);
       // setData(res.data.data);
     });
-  }, []);
+  };
 
-  const navigation = useNavigation();
-  const [data, setData] = useState([]);
+  useEffect(() => {
+    getDataHadiah();
+  }, []);
 
   const renderItem = ({item}) => {
     return (

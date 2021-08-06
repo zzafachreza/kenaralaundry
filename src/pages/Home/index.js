@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   TouchableNativeFeedback,
   Linking,
+  RefreshControl,
 } from 'react-native';
 import {colors} from '../../utils/colors';
 import {fonts} from '../../utils/fonts';
@@ -22,50 +23,25 @@ import axios from 'axios';
 import messaging from '@react-native-firebase/messaging';
 import 'intl';
 import 'intl/locale-data/jsonp/en';
-import MyTerbaik2 from '../../components/MyTerbaik2';
+
+const wait = timeout => {
+  return new Promise(resolve => {
+    setTimeout(resolve, timeout);
+  });
+};
 
 export default function Home({navigation}) {
   const [user, setUser] = useState([]);
   const [token, setToken] = useState('');
   const [point, setPoint] = useState(0);
 
-  messaging().onMessage(async remoteMessage => {
-    // Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
-    const json = JSON.stringify(remoteMessage);
-    const obj = JSON.parse(json);
-    // alert(obj.notification);
-    // console.log('list transaksi', obj.notification);
+  const [company, setCompany] = useState({});
+
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const getDataPoint = () => {
     getData('user').then(res => {
       setUser(res);
-      // console.log(res);
-      // alert('email' + res.email + ' dan password ' + res.password);
-
-      axios
-        .post('https://zavalabs.com/kenaralaundry/api/point.php', {
-          id_member: res.id,
-        })
-        .then(respoint => {
-          setPoint(respoint.data);
-          console.log('get apoint', respoint.data);
-        });
-
-      axios
-        .post('https://zavalabs.com/kenaralaundry/api/get_member.php', {
-          email: res.email,
-          password: res.password,
-        })
-        .then(rese => {
-          setUser(rese.data);
-          storeData('user', rese.data);
-        });
-    });
-  });
-
-  useEffect(() => {
-    getData('user').then(res => {
-      console.log(res);
-      setUser(res);
-
       axios
         .post('https://zavalabs.com/kenaralaundry/api/point.php', {
           id_member: res.id,
@@ -78,17 +54,44 @@ export default function Home({navigation}) {
       getData('token').then(res => {
         console.log('data token,', res);
         setToken(res.token);
+        axios
+          .post('https://zavalabs.com/kenaralaundry/api/update_token.php', {
+            id_member: user.id,
+            token: res.token,
+          })
+          .then(res => {
+            console.log('update token', res);
+          });
       });
     });
+  };
 
+  const GetCompany = () => {
     axios
-      .post('https://zavalabs.com/kenaralaundry/api/update_token.php', {
-        id_member: user.id,
-        token: token,
-      })
+      .get('https://zavalabs.com/kenaralaundry/api/company.php')
       .then(res => {
-        console.log('update token', res);
+        console.log('data company', res.data);
+        setCompany(res.data);
       });
+  };
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    getDataPoint();
+    wait(2000).then(() => {
+      setRefreshing(false);
+    });
+  }, []);
+
+  messaging().onMessage(async remoteMessage => {
+    // Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+    const json = JSON.stringify(remoteMessage);
+    const obj = JSON.parse(json);
+    getDataPoint();
+  });
+
+  useEffect(() => {
+    getDataPoint();
+    GetCompany();
   }, []);
 
   const windowWidth = Dimensions.get('window').width;
@@ -111,7 +114,14 @@ export default function Home({navigation}) {
       style={{
         flex: 1,
       }}>
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            colors={[colors.primary]}
+          />
+        }>
         <View
           style={{
             height: windowHeight / 9,
@@ -148,7 +158,7 @@ export default function Home({navigation}) {
             <TouchableOpacity
               onPress={() =>
                 Linking.openURL(
-                  'https://api.whatsapp.com/send/?phone=6285248695042',
+                  'https://api.whatsapp.com/send/?phone=' + company.tlp,
                 )
               }
               style={{
@@ -159,25 +169,6 @@ export default function Home({navigation}) {
               <Icon
                 type="ionicon"
                 name="logo-whatsapp"
-                color={colors.black}
-                size={windowWidth / 12}
-              />
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={() =>
-                Linking.openURL(
-                  'https://www.instagram.com/elektronik_handphone_muarabada/',
-                )
-              }
-              style={{
-                padding: 10,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <Icon
-                type="ionicon"
-                name="logo-instagram"
                 color={colors.black}
                 size={windowWidth / 12}
               />

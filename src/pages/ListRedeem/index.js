@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   ScrollView,
   Image,
+  RefreshControl,
 } from 'react-native';
 import {tan} from 'react-native-reanimated';
 import {colors} from '../../utils/colors';
@@ -18,10 +19,33 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import {MyButton} from '../../components';
 import {useIsFocused} from '@react-navigation/native';
 
+const wait = timeout => {
+  return new Promise(resolve => {
+    setTimeout(resolve, timeout);
+  });
+};
+
 export default function ListRedeem({navigation}) {
   const isFocused = useIsFocused();
+
+  const [refreshing, setRefreshing] = React.useState(false);
   const [data, setData] = useState([]);
   const [user, setUser] = useState({});
+
+  const getDataRedeem = () => {
+    getData('user').then(res => {
+      setUser(res);
+      console.log('data hadiah reddem', res);
+      axios
+        .post('https://zavalabs.com/kenaralaundry/api/redeem.php', {
+          id_member: res.id,
+        })
+        .then(res => {
+          console.log('hasil reddem', res.data);
+          setData(res.data);
+        });
+    });
+  };
 
   messaging().onMessage(async remoteMessage => {
     // Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
@@ -29,36 +53,20 @@ export default function ListRedeem({navigation}) {
     const obj = JSON.parse(json);
     // alert(obj.notification);
     // console.log('list transaksi', obj.notification);
-    getData('user').then(res => {
-      setUser(res);
-      // console.log(res);
-
-      axios
-        .post('https://zavalabs.com/kenaralaundry/api/redeem.php', {
-          id_member: res.id,
-        })
-        .then(res => {
-          // console.log(res.data);
-          setData(res.data);
-        });
-    });
+    getDataRedeem();
   });
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    getDataRedeem();
+    wait(2000).then(() => {
+      setRefreshing(false);
+    });
+  }, []);
 
   useEffect(() => {
     if (isFocused) {
-      getData('user').then(res => {
-        setUser(res);
-        // console.log(res);
-
-        axios
-          .post('https://zavalabs.com/kenaralaundry/api/redeem.php', {
-            id_member: res.id,
-          })
-          .then(res => {
-            console.log(res.data);
-            setData(res.data);
-          });
-      });
+      getDataRedeem();
     }
   }, [isFocused]);
 
@@ -68,6 +76,13 @@ export default function ListRedeem({navigation}) {
         flex: 1,
       }}>
       <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            colors={[colors.primary]}
+          />
+        }
         style={{
           padding: 10,
           flex: 1,
@@ -164,7 +179,7 @@ export default function ListRedeem({navigation}) {
                     onPress={() => {
                       axios
                         .post(
-                          'https://zavalabs.com/wandhaelektronik/api/redeem_hapus.php',
+                          'https://zavalabs.com/kenaralaundry/api/redeem_hapus.php',
                           {
                             id_member: item.id_member,
                             id: item.id,
@@ -173,7 +188,7 @@ export default function ListRedeem({navigation}) {
                         .then(res => {
                           axios
                             .post(
-                              'https://zavalabs.com/wandhaelektronik/api/redeem.php',
+                              'https://zavalabs.com/kenaralaundry/api/redeem.php',
                               {
                                 id_member: item.id_member,
                               },

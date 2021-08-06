@@ -27,6 +27,7 @@ import {showMessage} from 'react-native-flash-message';
 
 export default function Bayar({navigation, route}) {
   const [data, setData] = useState(route.params);
+  const [company, setComapny] = useState({});
 
   console.log('data dari bayar', data);
   const [loading, setLoading] = useState(false);
@@ -38,6 +39,15 @@ export default function Bayar({navigation, route}) {
   const options = {
     includeBase64: true,
     quality: 0.5,
+  };
+
+  const GetCompany = () => {
+    axios
+      .get('https://zavalabs.com/kenaralaundry/api/company.php')
+      .then(res => {
+        console.log(res.data);
+        setComapny(res.data);
+      });
   };
 
   const getCamera = xyz => {
@@ -61,6 +71,10 @@ export default function Bayar({navigation, route}) {
       }
     });
   };
+
+  useEffect(() => {
+    GetCompany();
+  }, []);
 
   const getGallery = xyz => {
     launchImageLibrary(options, response => {
@@ -185,10 +199,15 @@ export default function Bayar({navigation, route}) {
               }}>
               Transfer Ke BANK :
             </Text>
-            <Image
-              source={require('../../assets/bca.png')}
-              style={{width: 100, height: 30, margin: 10}}
-            />
+            <Text
+              style={{
+                color: colors.black,
+                fontSize: 16,
+                fontFamily: fonts.secondary[600],
+                padding: 10,
+              }}>
+              {company.fb}
+            </Text>
           </View>
           <View
             style={{
@@ -213,7 +232,7 @@ export default function Bayar({navigation, route}) {
                 fontFamily: fonts.secondary[600],
                 padding: 10,
               }}>
-              75243132
+              {company.rek}
             </Text>
           </View>
           <View
@@ -239,7 +258,7 @@ export default function Bayar({navigation, route}) {
                 fontFamily: fonts.secondary[600],
                 padding: 10,
               }}>
-              Kenara Laundry
+              {company.ig}
             </Text>
           </View>
           <View
@@ -278,14 +297,16 @@ export default function Bayar({navigation, route}) {
         </View>
 
         <View>
-          <MyButton
-            onPress={simpan}
-            title="KONFIRMASI PEMBAYARAN"
-            warna={colors.warning}
-            style={{
-              justifyContent: 'flex-end',
-            }}
-          />
+          {data.buktibayar && (
+            <MyButton
+              onPress={simpan}
+              title="KONFIRMASI PEMBAYARAN"
+              warna={colors.warning}
+              style={{
+                justifyContent: 'flex-end',
+              }}
+            />
+          )}
         </View>
       </SafeAreaView>
       {loading && (

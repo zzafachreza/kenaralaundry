@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   ScrollView,
   Image,
+  RefreshControl,
 } from 'react-native';
 import {tan} from 'react-native-reanimated';
 import {colors} from '../../utils/colors';
@@ -18,17 +19,20 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import {MyButton} from '../../components';
 import {useIsFocused} from '@react-navigation/native';
 
+const wait = timeout => {
+  return new Promise(resolve => {
+    setTimeout(resolve, timeout);
+  });
+};
+
 export default function ListData({navigation}) {
   const isFocused = useIsFocused();
   const [data, setData] = useState([]);
   const [user, setUser] = useState({});
 
-  messaging().onMessage(async remoteMessage => {
-    // Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
-    const json = JSON.stringify(remoteMessage);
-    const obj = JSON.parse(json);
-    // alert(obj.notification);
-    // console.log('list transaksi', obj.notification);
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const getDataTransaksi = () => {
     getData('user').then(res => {
       setUser(res);
       // console.log(res);
@@ -42,23 +46,25 @@ export default function ListData({navigation}) {
           setData(res.data);
         });
     });
+  };
+
+  messaging().onMessage(async remoteMessage => {
+    // Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+    const json = JSON.stringify(remoteMessage);
+    const obj = JSON.parse(json);
+    // alert(obj.notification);
+    // console.log('list transaksi', obj.notification);
   });
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    getDataTransaksi();
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
 
   useEffect(() => {
     if (isFocused) {
-      getData('user').then(res => {
-        setUser(res);
-        // console.log(res);
-
-        axios
-          .post('https://zavalabs.com/kenaralaundry/api/transaksi.php', {
-            id_member: res.id,
-          })
-          .then(res => {
-            console.log(res.data);
-            setData(res.data);
-          });
-      });
+      getDataTransaksi();
     }
   }, [isFocused]);
 
@@ -68,6 +74,13 @@ export default function ListData({navigation}) {
         flex: 1,
       }}>
       <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            colors={[colors.primary]}
+          />
+        }
         style={{
           padding: 10,
           flex: 1,
@@ -167,6 +180,7 @@ export default function ListData({navigation}) {
                       backgroundColor: '#DEDEDE',
                       color: colors.black,
                       padding: 10,
+                      fontSize: windowWidth / 32,
                       fontFamily: fonts.secondary[600],
                     }}>
                     MENUNGGU KONFIRMASI
@@ -203,6 +217,7 @@ export default function ListData({navigation}) {
                       style={{
                         fontFamily: fonts.secondary[600],
                         color: colors.white,
+                        fontSize: windowWidth / 32,
                       }}>
                       Batalkan Transaksi
                     </Text>
@@ -219,6 +234,7 @@ export default function ListData({navigation}) {
                       color: colors.black,
                       padding: 10,
                       fontFamily: fonts.secondary[600],
+                      fontSize: windowWidth / 32,
                     }}>
                     CUCIAN SUDAH WANGI
                   </Text>
@@ -234,6 +250,7 @@ export default function ListData({navigation}) {
                       style={{
                         fontFamily: fonts.secondary[600],
                         color: colors.white,
+                        fontSize: windowWidth / 32,
                       }}>
                       Atur Jadwal Pengantaran
                     </Text>
@@ -251,6 +268,7 @@ export default function ListData({navigation}) {
                       padding: 10,
                       fontFamily: fonts.secondary[600],
                       textAlign: 'center',
+                      fontSize: windowWidth / 32,
                     }}>
                     SELESAI
                   </Text>
@@ -267,6 +285,7 @@ export default function ListData({navigation}) {
                       padding: 10,
                       fontFamily: fonts.secondary[600],
                       textAlign: 'center',
+                      fontSize: windowWidth / 32,
                     }}>
                     CUCIAN SIAP DI ANTAR
                   </Text>
@@ -283,6 +302,7 @@ export default function ListData({navigation}) {
                       padding: 10,
                       fontFamily: fonts.secondary[600],
                       textAlign: 'center',
+                      fontSize: windowWidth / 32,
                     }}>
                     KURIR SEDANG MENUJU KE RUMAH ANDA
                   </Text>
@@ -299,6 +319,7 @@ export default function ListData({navigation}) {
                       padding: 10,
                       fontFamily: fonts.secondary[600],
                       textAlign: 'center',
+                      fontSize: windowWidth / 32,
                     }}>
                     CUCIAN ANDA SUDAH SAMPAI DI TOKO
                   </Text>
@@ -315,6 +336,7 @@ export default function ListData({navigation}) {
                       padding: 10,
                       fontFamily: fonts.secondary[600],
                       textAlign: 'center',
+                      fontSize: windowWidth / 32,
                     }}>
                     CUCIAN SEDANG DI CUCI
                   </Text>
@@ -331,6 +353,7 @@ export default function ListData({navigation}) {
                       padding: 10,
                       fontFamily: fonts.secondary[600],
                       textAlign: 'center',
+                      fontSize: windowWidth / 32,
                     }}>
                     CUCIAN SEDANG DI SETRIKA
                   </Text>

@@ -32,6 +32,17 @@ export default function Redeem({navigation, route}) {
     getData('user').then(res => {
       console.log('data user', res);
       setUser(res);
+      axios
+        .post('https://zavalabs.com/kenaralaundry/api/point.php', {
+          id_member: res.id,
+        })
+        .then(respoint => {
+          setUser({
+            ...res,
+            point: respoint.data,
+          });
+          console.log('get apoint', respoint.data);
+        });
     });
   }, []);
 
